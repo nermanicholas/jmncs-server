@@ -42,7 +42,7 @@ http.get('/attraction', (request, response) => {
         rating: 5.0,
         city: 'Waterloo',
         distance: 0.5,
-        type: food,
+        type: 'food',
         id: 1
     };
     response.send(JSON.stringify(result));
