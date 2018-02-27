@@ -1,0 +1,8 @@
+{
+    "name": "Get Together",
+    "description": "An app that brings people together at the best attractions.",
+    "repository": "https://github.com/nermanicholas/GetTogether",
+    "logo": "",
+    "keywords": ["node", "express", "heroku"],
+    "image": ""
+  }
