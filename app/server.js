@@ -35,7 +35,17 @@ http.get('/profile', (request, response) => {
 });
 
 http.get('/attraction', (request, response) => {
-
+    var result = {
+        name: 'Mikey\'s Eatry',
+        latitude: 43.4721651,
+        longitude: -80.5384285,
+        rating: 5.0,
+        city: 'Waterloo',
+        distance: 0.5,
+        type: food,
+        id: 1
+    };
+    response.send(JSON.stringify(result));
 });
 
 http.get('/attraction/list', (request, response) => {
@@ -64,3 +74,4 @@ http.post('/login', (request, response) => {7
 });
 
 http.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
