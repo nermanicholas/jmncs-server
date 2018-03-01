@@ -8,8 +8,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 3000
 var http = express();
-
-http.set('view engine', 'ejs');  //do we really need the ejs dependency?
+http.use(express.bodyParser());
 
 // Get Together Server API
 
@@ -32,6 +31,17 @@ http.get('/profile', (request, response) => {
     //retrieve the user object
     //format the user object into a format that can be passed back to the client
     //send the new user object back to the client
+    var result = {
+        userid: 1,
+        phone_number: 9053990223,
+        first_name: 'Michael',
+        last_name: 'Kang',
+        profile_url:'https://scontent.fyzd1-1.fna.fbcdn.net/v/t31.0-8/22426246_10155760490002964_7691357498054086805_o.jpg?oh=c3586afce9dfff9c8ce53e443b2c57b5&oe=5B0F9969',
+        email:'michael_kang@outlook.com',
+        auth_token:'',
+        created: Date.now(),
+        last_login: Date.now()
+    };
 });
 
 http.get('/attraction', (request, response) => {
@@ -96,14 +106,56 @@ http.post('/register', (request, response) => {
     //retrieve register information from the body of the request
     //check whether the information sent to register is valid
     //return success or failure message for register attempt
-    response.send(200, 'Connection successful.');
+
+    var result = {
+        userid: 1,
+        phone_number: 9053990223,
+        first_name: 'Michael',
+        last_name: 'Kang',
+        profile_url:'https://scontent.fyzd1-1.fna.fbcdn.net/v/t31.0-8/22426246_10155760490002964_7691357498054086805_o.jpg?oh=c3586afce9dfff9c8ce53e443b2c57b5&oe=5B0F9969',
+        email:'michael_kang@outlook.com',
+        auth_token:'',
+        created: Date.now(),
+        last_login: Date.now()
+    };
+
+    if(request.body != null) {
+        if(request.body.first_name === "Michael" &&
+        request.body.last_name === "Kang" &&
+        request.body.profile_url !== "" &&
+        request.body.email === "michael_kang@outlook.com") {
+            result.profile_url = request.body.profile_url;
+            result.auth_token = reqeust.body.auth_token;
+            var wrapper = {user: result, message: "Registration successful"};
+            response.send(200, JSON.stringify(wrapper));
+        }
+        else {
+            response.send(400, "Incorrect info when registering.");
+        }
+    }
+    response.send(500, 'Server error retrieving request.');
 });
 
 http.post('/login', (request, response) => {7
     //retrieve login information from the body of the request
     //do a check on the login information to verify that the user's information by checking the database
     //return success or failure message for login attempt
-    response.send(200, 'Connection successful.');
+    
+    if(request.body != null) {
+        if(request.body.first_name === "Michael" &&
+        request.body.last_name === "Kang" &&
+        request.body.profile_url !== "" &&
+        request.body.email === "michael_kang@outlook.com") {
+            result.profile_url = request.body.profile_url;
+            result.auth_token = reqeust.body.auth_token;
+            var wrapper = {user: result, message: "Registration successful"};
+            response.send(200, JSON.stringify(wrapper));
+        }
+        else {
+            response.send(400, "Incorrect info when logging in.");
+        }
+    }
+    response.send(500, 'Server error retrieving request.');
 });
 
 http.listen(PORT, () => console.log(`Listening on ${ PORT }`));
