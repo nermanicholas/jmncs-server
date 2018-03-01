@@ -38,10 +38,11 @@ http.get('/profile', (request, response) => {
         last_name: 'Kang',
         profile_url:'https://scontent.fyzd1-1.fna.fbcdn.net/v/t31.0-8/22426246_10155760490002964_7691357498054086805_o.jpg?oh=c3586afce9dfff9c8ce53e443b2c57b5&oe=5B0F9969',
         email:'michael_kang@outlook.com',
-        auth_token:'',
+        auth_token:'EAAYmthAja4IBAKw7SujjRvtIxhADig9yGDZAD08VMK6nwpZAnhioglPkbUUy3nZAJYBZCFOZBfLkLFvwW9366VScgir4nUUsqSAPYIsRxkMPaoiux2ZAJzrBXvnrseIIG1qzAtBZAasL4Bn62mMCQZCBIxhcLYChAhF3bFt5Nblg6EFtt3E9wpqXDnWzF4DbZCyr2fZCHxBxCkIvAM84kNQqPZAc3iTagJyzovkcW2dZAMB7qwZDZD',
         created: Date.now(),
         last_login: Date.now()
     };
+    response.send(200, JSON.stringify(result));
 });
 
 http.get('/attraction', (request, response) => {
@@ -55,7 +56,7 @@ http.get('/attraction', (request, response) => {
         type: 'food',
         id: 1
     };
-    response.send(JSON.stringify(result));
+    response.send(200, JSON.stringify(result));
 });
 
 http.get('/attraction/list', (request, response) => {
@@ -91,7 +92,7 @@ http.get('/attraction/list', (request, response) => {
             id: 3
         },
     ];
-    response.send(JSON.stringify(result));
+    response.send(200, JSON.stringify(result));
 });
 
 
@@ -141,6 +142,8 @@ http.post('/login', (request, response) => {7
     //do a check on the login information to verify that the user's information by checking the database
     //return success or failure message for login attempt
     
+    //STATUS: INCOMPLETE
+
     if(request.body != null) {
         if(request.body.first_name === "Michael" &&
         request.body.last_name === "Kang" &&
