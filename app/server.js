@@ -49,6 +49,39 @@ http.get('/attraction', (request, response) => {
 });
 
 http.get('/attraction/list', (request, response) => {
+    var result = [
+        {
+            name: 'Mikey\'s Eatry',
+            latitude: 43.4721651,
+            longitude: -80.5384285,
+            rating: 4.0,
+            city: 'Waterloo',
+            distance: 0.6,
+            type: 'food',
+            id: 1
+        },
+        {
+            name: 'Burger King',
+            latitude: 43.4721651,
+            longitude: -80.5384285,
+            rating: 3.5,
+            city: 'Waterloo',
+            distance: 0.8,
+            type: 'food',
+            id: 2
+        },
+        {
+            name: 'Lazeez',
+            latitude: 43.4721651,
+            longitude: -80.5384285,
+            rating: 4.8,
+            city: 'Waterloo',
+            distance: 0.4,
+            type: 'food',
+            id: 3
+        },
+    ];
+    response.send(JSON.stringify(result));
 });
 
 
