@@ -36,7 +36,7 @@ http.get('/profile', (request, response) => {
 
 http.get('/attraction', (request, response) => {
     var result = {
-        name: 'Mikey\'s Eatry',
+        name: 'Mikey\'s Eatery',
         latitude: 43.4721651,
         longitude: -80.5384285,
         rating: 5.0,
