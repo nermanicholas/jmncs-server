@@ -12,6 +12,7 @@ var users = require('./models/users');
 var events = require('./models/events');
 var attractions = require('./models/attractions');
 var http = express();
+var bodyParser = require('body-parser');
 
 http.use(bodyParser.json());
 // Get Together Server API
