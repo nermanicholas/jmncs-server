@@ -8,9 +8,9 @@ const app = require('../app.json');
 const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 3000;
-var users = require('/models/users.js');
-var events = require('/models/events.js');
-var attractions = require('/models/attractions.js');
+var users = require('models/users.js');
+var events = require('models/events.js');
+var attractions = require('models/attractions.js');
 var http = express();
 
 http.use(bodyParser.json());
