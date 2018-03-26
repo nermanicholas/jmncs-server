@@ -13,6 +13,7 @@ var events = require('/models/events.js');
 var attractions = require('/models/attractions.js');
 var http = express();
 
+http.use(bodyParser.json())
 // Get Together Server API
 
 /* 
@@ -111,33 +112,35 @@ http.post('/register', (request, response) => {
     //check whether the information sent to register is valid
     //return success or failure message for register attempt
 
-    var result = {
-        userid: 1,
-        phone_number: 9053990223,
-        first_name: 'Michael',
-        last_name: 'Kang',
-        profile_url:'https://scontent.fyzd1-1.fna.fbcdn.net/v/t31.0-8/22426246_10155760490002964_7691357498054086805_o.jpg?oh=c3586afce9dfff9c8ce53e443b2c57b5&oe=5B0F9969',
-        email:'michael_kang@outlook.com',
-        auth_token:'',
-        created: Date.now(),
-        last_login: Date.now()
-    };
+    console.log(request.body);
+    response.send(200, request.body.name);
+    // var result = {
+    //     userid: 1,
+    //     phone_number: 9053990223,
+    //     first_name: 'Michael',
+    //     last_name: 'Kang',
+    //     profile_url:'https://scontent.fyzd1-1.fna.fbcdn.net/v/t31.0-8/22426246_10155760490002964_7691357498054086805_o.jpg?oh=c3586afce9dfff9c8ce53e443b2c57b5&oe=5B0F9969',
+    //     email:'michael_kang@outlook.com',
+    //     auth_token:'',
+    //     created: Date.now(),
+    //     last_login: Date.now()
+    // };
 
-    if(request.body != null) {
-        if(request.body.first_name === "Michael" &&
-        request.body.last_name === "Kang" &&
-        request.body.profile_url !== "" &&
-        request.body.email === "michael_kang@outlook.com") {
-            result.profile_url = request.body.profile_url;
-            result.auth_token = reqeust.body.auth_token;
-            var wrapper = {user: result, message: "Registration successful"};
-            response.send(200, JSON.stringify(wrapper));
-        }
-        else {
-            response.send(400, "Incorrect info when registering.");
-        }
-    }
-    response.send(500, 'Server error retrieving request.');
+    // if(request.body != null) {
+    //     if(request.body.first_name === "Michael" &&
+    //     request.body.last_name === "Kang" &&
+    //     request.body.profile_url !== "" &&
+    //     request.body.email === "michael_kang@outlook.com") {
+    //         result.profile_url = request.body.profile_url;
+    //         result.auth_token = reqeust.body.auth_token;
+    //         var wrapper = {user: result, message: "Registration successful"};
+    //         response.send(200, JSON.stringify(wrapper));
+    //     }
+    //     else {
+    //         response.send(400, "Incorrect info when registering.");
+    //     }
+    // }
+    // response.send(500, 'Server error retrieving request.');
 });
 
 http.post('/login', (request, response) => {7
