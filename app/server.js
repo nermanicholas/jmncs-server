@@ -13,7 +13,7 @@ var events = require('/models/events.js');
 var attractions = require('/models/attractions.js');
 var http = express();
 
-http.use(bodyParser.json())
+http.use(bodyParser.json());
 // Get Together Server API
 
 /* 
@@ -143,7 +143,7 @@ http.post('/register', (request, response) => {
     // response.send(500, 'Server error retrieving request.');
 });
 
-http.post('/login', (request, response) => {7
+http.post('/login', (request, response) => {
     //retrieve login information from the body of the request
     //do a check on the login information to verify that the user's information by checking the database
     //return success or failure message for login attempt
