@@ -21,11 +21,11 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
         });
         var query ="INSERT INTO public.events(name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes) \
                         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) ON CONFLICT (name, friendid) \
-                        DO UPDATE SET name = excluded.name, \
-                        friendId = excluded.friendId, \
-                        attractionId = excluded.attractionId, \
-                        attractionName = excluded.attractionName, \
-                        owner_id = excluded.owner_id \
+                        DO UPDATE SET startTimes = excluded.startTimes, \
+                        dates = excluded.dates, \
+                        endTimes = excluded.endTimes, \
+                        votes = excluded.votes, \
+                        eventStatus = excluded.eventStatus \
                         RETURNING *";
             //app.db_queries.insert_event;
         var params = [name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes];
