@@ -34,6 +34,8 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
             console.log(err.stack)
           } else {
             console.log(res.rows[0])
+              response = select_EventsId()
+              return response;
           }
             pool.end();
         });
@@ -43,5 +45,34 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
 function deleteEvent(eventid) {
     console.log('implement me');
 }
+
+function select_EventsId() {
+    var response = null;
+    var pool = var pool = new pg.Pool( {
+            user: 'jsxsnawiawgkxp',
+            host: 'ec2-54-225-249-161.compute-1.amazonaws.com',
+            database: 'df5u1ks7mi2i34',
+            password: 'd942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29',
+            port: 5432
+        });
+    var promise = new Promise((resolve, reject) => {
+        pool.query(app.db_queries.select_EventsId, (err, res) => {
+            if (err) {
+                response = err.stack;
+                console.log(err.stack);
+                reject(err);
+            } else {
+                resolve(res);
+                response = res;
+            }
+        });
+    });
+
+    return promise.then(result => {
+        pool.end();
+        return response;
+    });
+}
+
 
 module.exports.createEvent = createEvent;
