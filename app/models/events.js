@@ -21,6 +21,7 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
             console.log(res.rows[0])
           }
         });
+        client.end();
     }
 }
 
