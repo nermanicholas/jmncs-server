@@ -3,7 +3,7 @@ var app = require("../../app.json");
 var pg = require('pg');
 pg.defaults.ssl=true;
 
-function createUser(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) {
+async function createUser(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) {
     if(first_name === null || last_name === null || fb_userid === null || profile_img === null || fb_auth_token === "") {
         console.log("Error: Could not create user due to missing or incorrect data.");
         return null;
