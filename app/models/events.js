@@ -9,17 +9,25 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
         return null;
     } else {
         var response = null;
-        var cn = 'postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34';
-        var client = new pg.Client(cn);
-        client.connect();
+        //var cn = 'postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34';
+        //var client = new pg.Client(cn);
+        //client.connect();
+         var pool = new pg.Pool( {
+            user: 'jsxsnawiawgkxp',
+            host: 'ec2-54-225-249-161.compute-1.amazonaws.com',
+            database: 'df5u1ks7mi2i34',
+            password: 'd942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29',
+            port: 5432
+        });
         var query = app.db_queries.insert_event;
         var params = [name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes];
-        client.query(query, params, (err, res) => {
+        pool.query(query, params, (err, res) => {
         if (err) {
             console.log(err.stack)
           } else {
             console.log(res.rows[0])
           }
+            pool.end();
         });
     }
 }
