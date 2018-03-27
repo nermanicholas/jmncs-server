@@ -15,7 +15,9 @@ var http = express();
 var bodyParser = require('body-parser');
 
 http.use(bodyParser.json());
-http.use(bodyParser.urlencoded({ extended: true }));
+http.use(bodyParser.urlencoded({
+    extended: true
+});
 // Get Together Server API
 
 /* 
@@ -115,7 +117,7 @@ http.post('/register', (request, response) => {
     //return success or failure message for register attempt
 
     console.log(request.body);
-    console.log(request.body[data]);
+    console.log(request.body.picture.data.url);
     response.send(200, request.body.name);
     // var result = {
     //     userid: 1,
