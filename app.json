@@ -1,8 +1,33 @@
 {
     "name": "Get Together",
     "description": "An app that brings people together at the best attractions.",
-    "repository": "https://github.com/nermanicholas/GetTogether",
     "logo": "",
     "keywords": ["node", "express", "heroku"],
-    "image": ""
+    "image": "",
+    "db_config": {
+      "user": "jsxsnawiawgkxp",
+      "password": "d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29",
+      "host": "ec2-54-225-249-161.compute-1.amazonaws.com",
+      "port": 5432,
+      "database": "df5u1ks7mi2i34",
+      "ssl": true
+    },
+    "connection_string": "postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34",
+    "db_queries": {
+      "select_users": "SELECT * FROM public.users WHERE id=$1, fb_userid=$2, first_name=$3, last_name=$4, availability=$5",
+      "select_events": "SELECT * FROM public.events WHERE id=$1, owner_id=$2, friends=$3, status=$4, name=$5",
+      "select_attractions": "SELECT * FROM public.attractions WHERE id=$1, name=$2, geolocation=$3, rating=$4, city=$5, type=$6",
+      "insert_user": "INSERT INTO public.users(fb_userid, first_name, last_name, email, phone_number, profile_img, availability, fb_auth_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      "insert_event": "INSERT INTO public.events(owner_id, attractions_list, friends, status, name) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+      "insert_attraction": "INSERT INTO public.attractions(name, geolocation, rating, city, type, reviews) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+      "update_user": "UPDATE public.users SET fb_userid=$1, first_name=$2, last_name=$3, email=$4, phone_number=$5, profile_img=$6, availability=$7, fb_auth_token=$8 WHERE id=$9 OR fb_userid=$10",
+      "update_event": "UPDATE public.events SET owner_id=$1, attractions_list=$2, friends=$3, status=$4, name=$5 WHERE id=$6",
+      "update_attraction": "UPDATE public.attractions SET name=$1, geolocation=$2, rating=$3, city=$4, type=$5, reviews=$6 WHERE id=$7",
+      "delete_user": "",
+      "delete_event": "",
+      "delete_attraction": "",
+      "delete_all_users": "",
+      "delete_all_events": "",
+      "delete_all_attractions": ""
+    }
   }
