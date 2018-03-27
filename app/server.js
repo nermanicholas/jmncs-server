@@ -114,6 +114,7 @@ http.post('/register', (request, response) => {
     //return success or failure message for register attempt
 
     console.log(request.body);
+    console.log(request.body.data.url);
     response.send(200, request.body.name);
     // var result = {
     //     userid: 1,
