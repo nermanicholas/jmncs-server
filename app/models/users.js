@@ -48,3 +48,5 @@ function updateUser(first_name, last_name, fb_userid, email, phone_number, profi
 function deleteUser(attraction_id) {
     console.log('implement me');
 }
+
+module.exports.createUser = createUser;
