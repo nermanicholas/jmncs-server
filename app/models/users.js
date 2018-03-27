@@ -3,7 +3,7 @@ var app = require("../../app.json");
 var pg = require('pg');
 pg.defaults.ssl=true;
 
-async function createUser(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) {
+function createUser(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) {
     if(first_name === null || last_name === null || fb_userid === null || profile_img === null || fb_auth_token === "") {
         console.log("Error: Could not create user due to missing or incorrect data.");
         return null;
@@ -14,12 +14,13 @@ async function createUser(first_name, last_name, fb_userid, email, profile_img, 
         client.connect();
         var query = app.db_queries.insert_user;
         var params = [first_name, last_name, fb_userid, email, profile_img, fb_auth_token];
-        try {
-          const res = await pool.query(query, params)
-          console.log(res.rows[0])
-        } catch(err) {
-          console.log(err.stack)
-        }
+        client.query(query, params, (err, res) => {
+        if (err) {
+            console.log(err.stack)
+          } else {
+            console.log(res.rows[0])
+          }
+        });
     }
 }
 
