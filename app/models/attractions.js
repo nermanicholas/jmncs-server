@@ -1,75 +1,94 @@
-var app = require("../../app.json")
-var db = require("pg");
+var bodyParser = require("body-parser");
+var app = require("../../app.json");
+var pg = require('pg');
+pg.defaults.ssl=true;
 
+module.exports.createAttraction = createAttraction;
+module.exports.updateAttraction = updateAttraction;
+module.exports.deleteAttraction = deleteAttraction;
 
+function connect(query) {
+    var response = null;
+    var pool = new pg.Pool(app.postgres_db_user);
+    var promise = new Promise((resolve, reject) => {
+        pool.query(query.sql, query.values, (err, res) => {
+            if (err) {
+                response = err.stack;
+                console.log(err.stack);
+                reject(err);
+            } else {
+                resolve(res);
+                response = res;
+            }
+        });
+    });
 
-function connect(_action) {
-    var result = null;
-    var pool = new db.Pool(app['postgresql']);
-    pool.connect((error, client, done) => {
-        if(error) {
-            console.log("Error: Could not establish connection with database.");
-            console.log(error);
-            return null;
-        }
-        result = _action(client);
-        done();
-    })
-    pool.end();
-    return result;
+    return promise.then(result => {
+        pool.end();
+        return response;
+    });
 }
 
-function createAttraction(name, geolocation, rating, city, type, reviews) {
-    if((name === null || name === "") || rating === null || typeof(rating) !== 'object' || (city === null || city === "") || (type === null || type === "")) {
+function attractionExists(attraction) {
+    var sql = "SELECT id, yelp_id, geolocation, rating, city, type, reviews FROM public.attractions WHERE yelp_id=$1";
+    var query = { sql: sql, values: [attraction.yelp_id]};
+    
+    return connect(query).then((result) => {
+        for(var row of result.rows) {
+            if(attraction.yelp_id.toString() === row.yelp_id) {
+                return parseInt(row.id);
+            }
+        }
+        return false;
+    });
+}
+
+function createAttraction(yelp_id, name, geolocation, rating, city, type, reviews) {
+    if((yelp_id === null || yelp_id === "") || (name === null || name === "") || rating === null || typeof(rating) !== 'object' || (city === null || city === "") || (type === null || type === "")) {
         console.log("Error: Could not create attraction due to missing or incorrect data.");
         return null;
     } else {
-        connect((client) => {
-            client.query(app["db_queries"]["insert_attraction"], 
-                name, geolocation.toString(), JSON.stringify(rating), city, type, JSON.stringify(reviews),
-                (error, result) => {
-                    if(error) {
-                        console.log(error);
-                        return null;
-                    }
-                }).on("row", (row, result) => {
-                    return row;
-            });
-        })
+        return attractionExists({yelp_id: yelp_id, name: name, geolocation: geolocation, rating: rating, city: city, type: type}).then((val) => {
+            if(typeof(val) === "integer") {
+                return updateAttraction(val, yelp_id, name, geolocation, rating, city, type, reviews, false);
+            } else if(typeof(val) === "boolean") {
+                var query = { sql: app.db_queries.insert_attraction, values: [yelp_id, name, '(' + geolocation[0] + ',' + geolocation[1] +')', rating, city, type, reviews]};
+                return connect(query);
+            }
+        });
     }
 }
 
 
-function updateAttraction(name, geolocation, rating, city, type, reviews) {
-    if((name === null || name === "") || rating === null || typeof(rating) !== 'object' || (city === null || city === "") || (type === null || type === "")) {
+function updateAttraction(id, yelp_id, name, geolocation, rating, city, type, reviews, duplicateCheck=true) {
+    if(id===null || yelp_id === null || name === null || rating === null || city === null || type === null) {
         console.log("Error: Could not update attraction due to missing or incorrect data.");
         return null;
     } else {
-        connect((client) => {
-            client.query(app["db_queries"]["update_attraction"], 
-                name, geolocation.toString(), JSON.stringify(rating), city, type, JSON.stringify(reviews),
-                (error, result) => {
-                    if(error) {
-                        console.log(error);
-                        return null;
-                    }
-                }).on("row", (row, result) => {
-                    return row;
+        if(duplicateCheck) {
+            return attractionExists({yelp_id: yelp_id, name: name, geolocation: geolocation, rating: rating, city: city, type: type}).then((result)=>{
+                if(typeof(result) === "boolean") {
+                    var query = { sql: app.db_queries.insert_attraction, values: [yelp_id, name, '(' + geolocation[0] + ',' + geolocation[1] +')', rating, city, type, reviews]};
+                    return connect(query);
+                } else {
+                    var sql = "UPDATE public.attractions SET yelp_id=$7, name=$1, geolocation=$2, rating=$3, city=$4, type=$5, reviews=$6 WHERE yelp_id=$7";
+                    var query = { sql: sql, values: [name, '(' + geolocation[0] + ',' + geolocation[1] +')', rating, city, type, reviews, yelp_id]};
+                    return connect(query);
+                }
             });
-        })
+        } else {
+            var query = { sql: app.db_queries.insert_attraction, values: [yelp_id, name, '(' + geolocation[0] + ',' + geolocation[1] +')', rating, city, type, reviews]};
+            return connect(query);
+        }
     }
 }
 
 function deleteAttraction(attraction_id) {
-    console.log('implement me');
+    if(attraction_id === null || attraction_id === "") {
+        console.log("Error: Could not delete attraction due to incorrect ID.");
+        return null;
+    } else {
+        var query = {sql: app.db_queries.delete_attraction, values: [attraction_id]};
+        return connect(query);
+    }
 }
-
-//checks if record exists in the attractions table and update it if necessary, if it doesn't exist then add it
-function duplicateRecords(record) {
-    console.log('implement me');
-}
-
-
-/*var test = createAttraction("Mikey's Eatery", (100, -100), {rating: 5, source: "Yelp", total: 5}, "Waterloo", "Food", [{name: "Nerman", rating: "5.0", source: "Yelp", comment: "This is awesome food!"}]);
-console.log(test);
-console.log('done');*/
