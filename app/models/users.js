@@ -9,8 +9,15 @@ function createUser(first_name, last_name, fb_userid, email, profile_img, fb_aut
         return null;
     } else {
         var cn = 'postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34';
-        var client = new pg.Client(cn);
-        client.connect();
+        // var client = new pg.Client(cn);
+        var pool = new pg.Pool( {
+            user: 'jsxsnawiawgkxp',
+            host: 'ec2-54-225-249-161.compute-1.amazonaws.com',
+            database: 'df5u1ks7mi2i34',
+            password: 'd942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29',
+            port: 5432
+        });
+        // client.connect();
         var query = "INSERT INTO public.users(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) \
                         VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT (fb_userid) \
                         DO UPDATE SET first_name = excluded.first_name, \
@@ -20,12 +27,13 @@ function createUser(first_name, last_name, fb_userid, email, profile_img, fb_aut
                         fb_auth_token = excluded.fb_auth_token \
                         RETURNING *";
         var params = [first_name, last_name, fb_userid, email, profile_img, fb_auth_token];
-        client.query(query, params, (err, res) => {
+        pool.query(query, params, (err, res) => {
         if (err) {
-            console.log(err.stack)
+            console.log(err.stack);
           } else {
-            console.log(res.rows[0])
+            console.log(res.rows[0]);
           }
+          pool.end();
         });
     }
 }
