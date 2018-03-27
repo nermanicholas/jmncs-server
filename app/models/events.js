@@ -19,7 +19,15 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
             password: 'd942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29',
             port: 5432
         });
-        var query = app.db_queries.insert_event;
+        var query ="INSERT INTO public.events(name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes) \
+                        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) ON CONFLICT (name, friendid) \
+                        DO UPDATE SET name = excluded.name, \
+                        friendId = excluded.friendId, \
+                        attractionId = excluded.attractionId, \
+                        attractionName = excluded.attractionName, \
+                        owner_id = excluded.owner_id \
+                        RETURNING *";
+            //app.db_queries.insert_event;
         var params = [name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes];
         pool.query(query, params, (err, res) => {
         if (err) {
@@ -30,6 +38,10 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
             pool.end();
         });
     }
+}
+
+function deleteEvent(eventid) {
+    console.log('implement me');
 }
 
 module.exports.createEvent = createEvent;
