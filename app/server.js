@@ -122,7 +122,7 @@ http.post('/register', (request, response) => {
         pic = request.body.picture.data.url,
         auth = request.body.auth;
 
-    createUser(first_name, last_name, id, email, pic, auth);
+    users.createUser(first_name, last_name, id, email, pic, auth);
     console.log(request.body);
     console.log(request.body.picture.data.url);
     // var result = {
