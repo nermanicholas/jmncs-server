@@ -4,7 +4,7 @@ var pg = require('pg');
 pg.defaults.ssl=true;
 
 function createEvent(name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes) {
-    if(ownser_id === null || name === null || attractionId === null || attractionName === null || eventStatus === null, friendId == null) {
+    if(owner_id === null || name === null || attractionId === null || attractionName === null || eventStatus === null, friendId == null) {
         console.log("Error: Could not create event due to missing or incorrect data.");
         return null;
     } else {
