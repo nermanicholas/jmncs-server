@@ -17,7 +17,7 @@ var bodyParser = require('body-parser');
 http.use(bodyParser.json());
 http.use(bodyParser.urlencoded({
     extended: true
-});
+}));
 // Get Together Server API
 
 /* 
