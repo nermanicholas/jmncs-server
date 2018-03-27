@@ -19,7 +19,7 @@ function createEvent(name, attractionId, attractionName, dates, startTimes, endT
             password: 'd942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29',
             port: 5432
         });
-        app.db_queries.insert_event;
+        var query =app.db_queries.insert_event;
         var params = [name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes];
         pool.query(query, params, (err, res) => {
         if (err) {
