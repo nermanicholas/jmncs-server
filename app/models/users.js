@@ -27,7 +27,6 @@ function createUser(first_name, last_name, fb_userid, email, profile_img, fb_aut
             console.log(res.rows[0])
           }
         });
-        client.end();
     }
 }
 
