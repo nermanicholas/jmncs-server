@@ -15,7 +15,8 @@
     "connection_string": "postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34",
     "db_queries": {
       "select_users": "SELECT * FROM public.users WHERE id=$1, fb_userid=$2, first_name=$3, last_name=$4, availability=$5",
-      "select_events": "SELECT * FROM public.events WHERE id=$1, owner_id=$2, friends=$3, status=$4, name=$5",
+      "select_events": "SELECT * FROM public.events WHERE id=SCOPE_IDENTITY()",
+      "select_eventsId": "SELECT * FROM public.events WHERE id=$1, owner_id=$2, friends=$3, status=$4, name=$5"
       "select_attractions": "SELECT * FROM public.attractions WHERE id=$1, name=$2, geolocation=$3, rating=$4, city=$5, type=$6",
       "insert_user": "INSERT INTO public.users(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
       "insert_event": "INSERT INTO public.events(name, attractionid, attractionname, dates, starttimes, endtimes, owner_id, friends, friendid, eventstatus, votes) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
