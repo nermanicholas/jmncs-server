@@ -169,12 +169,5 @@ http.post('/events', (request, response) => {
 
 });
 
-
-http.get('/events', (request, response) => {
-    var result = {events.select_eventsId()};
-    response.send(200, JSON.stringify(result));
-});
-
-
 http.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
