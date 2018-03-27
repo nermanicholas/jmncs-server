@@ -60,7 +60,7 @@ function createAttraction(yelp_id, name, geolocation, rating, city, type, review
 }
 
 
-function updateAttraction(id, yelp_id, name, geolocation, rating, city, type, reviews, duplicateCheck=true) {
+function updateAttraction(id, yelp_id, name, geolocation, rating, city, type, reviews, duplicateCheck) {
     if(id===null || yelp_id === null || name === null || rating === null || city === null || type === null) {
         console.log("Error: Could not update attraction due to missing or incorrect data.");
         return null;

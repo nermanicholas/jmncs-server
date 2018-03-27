@@ -5,7 +5,12 @@
     "keywords": ["node", "express", "heroku"],
     "image": "",
     "yelp_user": {
-      "user": "cheese"
+      "client_id": "YIrPewBZr7t0AQMqTjLgBQ",
+      "API_key" : "gaZhpjPmssRilKc85JyCh2LyotwRWNg2L4fCCscx7oVp-wGqRCn2EtkYbHarpO-M-UBryHpxOcxfcgvsBTaDNXz51xpqscOlPfpXMLLwHk9GUuKsGMgqjFACOUy6WnYx",
+      "consumer_key": "",
+      "consumer_secret": "",
+      "token": "",
+      "token_secret": ""
     },
     "postgres_db_user": {
       "user": "jsxsnawiawgkxp",
