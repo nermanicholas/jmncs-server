@@ -190,7 +190,7 @@ http.post('/events', (request, response) => {
 		friends = request.body.friends,
 		friendId = request.body.friendId,
 		eventStatus = request.body.eventStatus,
-		votes = request.body.votes,;
+		votes = request.body.votes;
 
     events.createEvent(name, attractionId, id, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes);
     console.log(request.body);
