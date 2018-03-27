@@ -118,7 +118,6 @@ http.post('/register', (request, response) => {
 
     console.log(request.body);
     console.log(request.body.picture.data.url);
-    response.send(200, request.body.name);
     // var result = {
     //     userid: 1,
     //     phone_number: 9053990223,
