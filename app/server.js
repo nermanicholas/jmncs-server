@@ -115,7 +115,14 @@ http.post('/register', (request, response) => {
     //retrieve register information from the body of the request
     //check whether the information sent to register is valid
     //return success or failure message for register attempt
+    var first_name = request.body.first_name,
+        last_name = request.body.last_name,
+        id = request.body.id,
+        email = request.body.email,
+        pic = request.body.picture.data.url,
+        auth = request.body.auth;
 
+    createUser(first_name, last_name, id, email, pic, auth);
     console.log(request.body);
     console.log(request.body.picture.data.url);
     // var result = {

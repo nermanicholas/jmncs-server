@@ -1,41 +1,25 @@
-var app = require("../../app.json")
-var db = require("pg");
+var bodyParser = require("body-parser");
+var app = require("../../app.json");
+var pg = require('pg');
+pg.defaults.ssl=true;
 
-
-
-function connect(_action) {
-    var result = null;
-    var pool = new db.Pool(app['postgresql']);
-    pool.connect((error, client, done) => {
-        if(error) {
-            console.log("Error: Could not establish connection with database.");
-            console.log(error);
-            return null;
-        }
-        result = _action(client);
-        done();
-    })
-    pool.end();
-    return result;
-}
-
-function createUser(first_name, last_name, fb_userid, email, phone_number, profile_img, availability, fb_auth_token) {
-    if(first_name === null || last_name === null || fb_userid === null || profile_img === null || availability === null || fb_auth_token === "") {
+function createUser(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) {
+    if(first_name === null || last_name === null || fb_userid === null || profile_img === null || fb_auth_token === "") {
         console.log("Error: Could not create user due to missing or incorrect data.");
         return null;
     } else {
-        connect((client) => {
-            client.query(app["db_queries"]["insert_user"], 
-                fb_userid, first_name, last_name, email, phone_number, profile_img, availability, fb_auth_token,
-                (error, result) => {
-                    if(error) {
-                        console.log(error);
-                        return null;
-                    }
-                }).on("row", (row, result) => {
-                    return row;
-            });
-        })
+        var response = null;
+        var cn = 'postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34';
+        var client = new pg.Client(cn);
+        client.connect();
+        var query = app.db_queries.insert_user;
+        var params = [first_name, last_name, fb_userid, email, profile_img, fb_auth_token];
+        try {
+          const res = await pool.query(query, params)
+          console.log(res.rows[0])
+        } catch(err) {
+          console.log(err.stack)
+        }
     }
 }
 
