@@ -8,7 +8,7 @@ function createUser(first_name, last_name, fb_userid, email, profile_img, fb_aut
         console.log("Error: Could not create user due to missing or incorrect data.");
         return null;
     } else {
-        var cn = 'postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34';
+        // var cn = 'postgres://jsxsnawiawgkxp:d942d97663ae984e9048fdcab5df5afd303e74fd20ac3ce7f8782fcccc271e29@ec2-54-225-249-161.compute-1.amazonaws.com:5432/df5u1ks7mi2i34';
         // var client = new pg.Client(cn);
         var pool = new pg.Pool( {
             user: 'jsxsnawiawgkxp',
