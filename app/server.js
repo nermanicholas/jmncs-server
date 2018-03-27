@@ -178,5 +178,24 @@ http.post('/login', (request, response) => {
     response.send(500, 'Server error retrieving request.');
 });
 
+http.post('/events', (request, response) => {
+    var name = request.body.name,
+        attractionId = request.body.attractionId,
+        id = request.body.id,
+        attractionName = request.body.attractionName,
+        dates = request.body.dates,
+		startTimes = request.body.startTimes,
+		endTimes = request.body.endTimes,
+        owner_id = request.body.ownser_id
+		friends = request.body.friends,
+		friendId = request.body.friendId,
+		eventStatus = request.body.eventStatus,
+		votes = request.body.votes,;
+
+    events.createEvent(name, attractionId, id, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes);
+    console.log(request.body);
+
+});
+
 http.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
