@@ -154,7 +154,6 @@ http.post('/login', (request, response) => {
 http.post('/events', (request, response) => {
     var name = request.body.name,
         attractionId = request.body.attractionId,
-        id = request.body.id,
         attractionName = request.body.attractionName,
         dates = request.body.dates,
 		startTimes = request.body.startTimes,
@@ -165,7 +164,7 @@ http.post('/events', (request, response) => {
 		eventStatus = request.body.eventStatus,
 		votes = request.body.votes;
 
-    events.createEvent(name, attractionId, id, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes);
+    events.createEvent(name, attractionId, attractionName, dates, startTimes, endTimes, owner_id, friends, friendId, eventStatus, votes);
     console.log(request.body);
 
 });
