@@ -167,10 +167,3 @@ http.post('/events', (request, response) => {
 });
 
 http.listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-var request = require('request');
-request('http://localhost:3000/register', function(err, resp, body) {
-    console.log('error: ', err);
-    console.log('response: ', resp);
-    console.log('body: ', body);
-});
