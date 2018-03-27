@@ -17,7 +17,14 @@
       "select_users": "SELECT * FROM public.users WHERE id=$1, fb_userid=$2, first_name=$3, last_name=$4, availability=$5",
       "select_events": "SELECT * FROM public.events WHERE id=$1, owner_id=$2, friends=$3, status=$4, name=$5",
       "select_attractions": "SELECT * FROM public.attractions WHERE id=$1, name=$2, geolocation=$3, rating=$4, city=$5, type=$6",
-      "insert_user": "INSERT INTO public.users(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+      "insert_user": "INSERT INTO public.users(first_name, last_name, fb_userid, email, profile_img, fb_auth_token) \
+                        VALUES($1, $2, $3, $4, $5, $6) ON CONFLICT (fb_userid) \
+                        DO UPDATE SET first_name = excluded.first_name, \
+                        last_name = excluded.last_name, \
+                        email = excluded.email, \
+                        profile_img = excluded.profile_img, \
+                        fb_auth_token = excluded.fb_auth_token \
+                        RETURNING *",
       "insert_event": "INSERT INTO public.events(owner_id, attractions_list, friends, status, name) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
       "insert_attraction": "INSERT INTO public.attractions(name, geolocation, rating, city, type, reviews) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
       "update_user": "UPDATE public.users SET fb_userid=$1, first_name=$2, last_name=$3, email=$4, phone_number=$5, profile_img=$6, availability=$7, fb_auth_token=$8 WHERE id=$9 OR fb_userid=$10",
